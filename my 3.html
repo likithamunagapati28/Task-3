@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Web Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background: #f0f8ff;
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+
+    /* 1. Responsive Media Queries */
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .quiz, .api-data, .carousel {
+      padding: 15px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      background-color: white;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .quiz, .api-data, .carousel {
+        width: 48%;
+      }
+    }
+
+    button {
+      padding: 10px 15px;
+      margin-top: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Interactive Web Features</h1>
+  <div class="container">
+    
+    <!-- Interactive Quiz -->
+    <div class="quiz">
+      <h3>Quiz: What is the capital of France?</h3>
+      <button onclick="checkAnswer('Paris')">Paris</button>
+      <button onclick="checkAnswer('London')">London</button>
+      <button onclick="checkAnswer('Rome')">Rome</button>
+      <p id="quiz-result"></p>
+    </div>
+
+    <!-- Image Carousel -->
+    <div class="carousel">
+      <h3>Image Carousel</h3>
+      <img id="carousel-image" src="https://picsum.photos/id/1015/400/200" alt="Carousel Image">
+      <br>
+      <button onclick="nextImage()">Next Image</button>
+    </div>
+
+    <!-- Fetch API Example -->
+    <div class="api-data">
+      <h3>Joke of the Moment</h3>
+      <button onclick="fetchJoke()">Get a Joke</button>
+      <p id="joke"></p>
+    </div>
+
+  </div>
+
+  <script>
+    // Quiz logic
+    function checkAnswer(answer) {
+      const result = document.getElementById("quiz-result");
+      if (answer === 'Paris') {
+        result.textContent = "Correct! 🎉";
+        result.style.color = "green";
+      } else {
+        result.textContent = "Wrong. Try again!";
+        result.style.color = "red";
+      }
+    }
+
+    // Image Carousel logic
+    const images = [
+      "https://picsum.photos/id/1015/400/200",
+      "https://picsum.photos/id/1025/400/200",
+      "https://picsum.photos/id/1042/400/200"
+    ];
+    let currentIndex = 0;
+
+    function nextImage() {
+      currentIndex = (currentIndex + 1) % images.length;
+      document.getElementById("carousel-image").src = images[currentIndex];
+    }
+
+    // Fetch API logic
+    async function fetchJoke() {
+      const response = await fetch("https://official-joke-api.appspot.com/random_joke");
+      const data = await response.json();
+      document.getElementById("joke").textContent = `${data.setup} - ${data.punchline}`;
+    }
+  </script>
+
+</body>
+</html>
